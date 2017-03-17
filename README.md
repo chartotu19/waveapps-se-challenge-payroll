@@ -17,24 +17,32 @@ I used my personal isomorphic boilerplate code that I generally use for simple C
 # Software installation
 To start the application, run the following commands.
 
-The following command installs all open source dependencies for this project defined in `package.json` file.
+Install all open source dependencies for this project defined in `package.json` file.
 ```
 $ npm install
 ```
-`build` command runs webpack to generate compiled js files.
+
+Run webpack to generate compiled js files.
 ```
 $ npm run build
 ```
 
-set environment variables for database connection. See `src/models/index.js` for more details.
+Set environment variables for database connection. See `src/models/index.js` for more details.
 ```
 export SE_DATABASE=se_payroll; export SE_USERNAME=root;export SE_PASSWORD=root
 ```
 
-This starts the server on port `3000`
+Start the server on port `3000`
 ```
 $ npm start
 ```
+# External packages
+
+* [semantic-ui](http://react.semantic-ui.com/) 
+* [reactjs](https://facebook.github.io/react/) 
+* [expressjs](https://expressjs.com/) 
+* [webpack](https://webpack.github.io/) 
+* Bunch of middlewares 
 
 # Gotchas
 

@@ -10,28 +10,36 @@ import routes from './routes';
 import NotFoundPage from './components/NotFoundPage';
 import bodyParser from 'body-parser';
 import session from 'express-session';
-// initialize the server and configure support for ejs templates
+
+// Express.js server instance
 const app = new Express();
 const server = new Server(app);
+
+// Setting view engine - ejs
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// middleware                                                                      
+// Global application middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+// Session stored in memory. Times out in 1hour.
 app.use(session({
   cookie: {
-    maxAge: 36000000,
-    httpOnly: false // <- set httpOnly to false
+    maxAge: 3600000,
+    httpOnly: false
   },
-  secret: 'ssshhhhh'
+  secret: '4f9BuUu6yeuDV4qK'
 }));
 
-// define the folder that will be used for static assets
+// Folder that will be used for static assets
 app.use(Express.static(path.join(__dirname, 'static')));
 
+// API routes setup
 let apiRouter = require('./api-routes');
 app.use('/api', apiRouter);
+
+//Global error handler middleware
 app.use(require('./errorHandler'));
 
 // universal routing and rendering
@@ -70,6 +78,7 @@ app.get('*', (req, res) => {
 // start the server
 const port = process.env.PORT || 3000;
 const env = process.env.NODE_ENV || 'production';
+
 server.listen(port, err => {
   if (err) {
     return console.error(err);

@@ -3,10 +3,9 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {Grid, Column, Sidebar, Segment, Button, Menu, Image, Icon, Header} from 'semantic-ui-react'
-// import SidebarLeftSlideAlong from './SidebarLeftSlideAlong';
 const headerStyle = {
     textAlign: 'center'
-}
+};
 export default class Layout extends React.Component {
     
     constructor () {
@@ -21,7 +20,7 @@ export default class Layout extends React.Component {
     
     logoutRequest () {
         this.hostname = window.location.protocol + "//" + window.location.hostname + ":" + (window.location.port);
-        let self = this
+        let self = this;
         return fetch(this.hostname + "/api/logout", {
             method: 'GET',
             credentials: 'same-origin'
