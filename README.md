@@ -40,6 +40,7 @@ $ npm start
 
 * Use any username/password combination to get past the login page.
 * Mysql connects to localhost always.
+* Dont forget to create the database defined in `SE_DATABASE`(default=`se_payroll`) env variable. The code will automatically generate new tables in that database.
 
 # Contact
 
