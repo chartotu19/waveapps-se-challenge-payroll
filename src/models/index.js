@@ -3,7 +3,7 @@
 let config = {
     database: process.env.SE_DATABASE || 'se_payroll',
     username: process.env.SE_USERNAME || 'root',
-    password: process.eng.SE_PASSWORD || ''
+    password: process.env.SE_PASSWORD || ''
 };
 
 let Sequelize = require('sequelize');
