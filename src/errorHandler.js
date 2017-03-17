@@ -1,5 +1,6 @@
 module.exports = function (err, req, res, next) {
-    
+   
+	console.log(err);
     // plug in sentry SDK here
     if(err.httpErrorCode){
         return res.status(err.httpErrorCode).json({

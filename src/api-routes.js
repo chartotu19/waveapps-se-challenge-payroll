@@ -33,43 +33,56 @@ router.post('/upload', sessionAuthenticate, upload.single('timesheet'), function
             return next(new BadRequestError('incorrect report number'));
         }
         
-        parsedData.forEach(( data ) => {
-            promises.push(
-                db.Employee.findOrCreate({
-                    where: {employee_id: parseInt(data[2])}
-                })
-            );
-            promises.push(
-                db.Job.findOrCreate({
-                    where: {
-                        job_name: data[3]
-                    }
-                })
-            );
-        });
-        
-        Promise.all(promises)
-            .then(function ( data ) {
-                let promises = [];
-                parsedData.forEach(function ( data ) {
-                    promises.push(db.EmployeeLog.findOrCreate({
+        db.EmployeeLog.findAll({
+            where : {report_number: report_meta_data[1]}
+        })
+        .then(function ( result ) {
+            if(result.length > 0){
+                return next(new BadRequestError('report number already exists!'));
+            }
+
+            parsedData.forEach(( data ) => {
+                promises.push(
+                    db.Employee.findOrCreate({
+                        where: {employee_id: parseInt(data[2])}
+                    })
+                );
+                promises.push(
+                    db.Job.findOrCreate({
                         where: {
-                            report_number: report_meta_data[1],
-                            log_date: data[0],
-                            employee_id: parseInt(data[2]),
-                            job_name: data[3],
-                            hours: parseFloat(data[1])
+                            job_name: data[3]
                         }
-                    }));
-                });
-                return Promise.all(promises);
-            })
-            .then(function () {
-                return res.json({
-                    message: 'success'
-                });
-            }).catch(function ( err ) {
-            return next(err);
+                    })
+                );
+            });
+
+            return Promise.all(promises)
+                .then(function ( data ) {
+                    let promises = [];
+                    parsedData.forEach(function ( data ) {
+                        promises.push(db.EmployeeLog.findOrCreate({
+                            where: {
+                                report_number: report_meta_data[1],
+                                log_date: data[0],
+                                employee_id: parseInt(data[2]),
+                                job_name: data[3],
+                                hours: parseFloat(data[1])
+                            }
+                        }));
+                    });
+                    return Promise.all(promises);
+                })
+                .then(function () {
+                    return res.json({
+                        message: 'success'
+                    });
+                })
+                .catch(function ( err ) {
+                    return next(err);
+                })
+        })
+        .catch(function ( err ) {
+            next(err);
         })
     });
     
