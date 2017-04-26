@@ -1,5 +1,3 @@
-# Wave Software Development Challenge
-
 # Introduction
 
 This is an isomorphic webapp with session based authentication. I have used react for crafting my web components . Node.js API endpoints written using Express.js to serve the frontend.
@@ -50,6 +48,3 @@ $ npm start
 * Mysql connects to localhost always.
 * Dont forget to create the database defined in `SE_DATABASE`(default=`se_payroll`) env variable. The code will automatically generate new tables in that database.
 
-# Contact
-
-Please drop me a message at selvam.palanimalai@gmail.com or Call me at 9022106336.
