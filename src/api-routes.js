@@ -116,6 +116,38 @@ router.get('/report', sessionAuthenticate, function ( req, res, next ) {
         })
 });
 
+router.get('/report/:report_number', sessionAuthenticate, function ( req, res, next ) {
+    if( !req.params.report_number ){
+        return next( new BadRequestError());
+    }
+    let employeeLogEntries = [];
+    return db.EmployeeLog.findAll({
+        where : {report_number: req.params.report_number}
+    })
+        .then(function ( data ) {
+            employeeLogEntries = data;
+            return db.Job.findAll({});
+        })
+        .then(function ( jobs ) {
+            let jobRates = {};
+            jobs.forEach(function ( j ) {
+                jobRates[j.job_name] = j.rate;
+            });
+            let result = employeeLogEntries.map(function ( e ) {
+                return {
+                    amount: e.hours * ( jobRates[e.job_name] || 0),
+                    log_date: e.log_date,
+                    employee_id: e.employee_id,
+                    report_number: e.report_number
+                }
+            });
+            return res.json(result)
+        })
+        .catch(function ( err ) {
+            next(err);
+        })
+});
+
 router.get('/status', sessionAuthenticate, function ( req, res, next ) {
     return res.status(200).end();
 });
